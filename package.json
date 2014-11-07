@@ -1,0 +1,16 @@
+{
+	"name": "munkres-js",
+	"main": "munkres.js",
+	"version": "1.1.0",
+	"homepage": "https://github.com/addaleax/munkres-js",
+	"authors": [
+		"sqrt <sqrt@entless.org>"
+	],
+	"description": "Munkres (aka Hungarian) algorithm for JS",
+	"keywords": [
+		"assignment",
+		"munkres"
+		"hungarian"
+	],
+	"license": "BSD"
+}
