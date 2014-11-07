@@ -321,7 +321,7 @@ Munkres.prototype.compute = function(cost_matrix) {
 		if (!func) // done
 			break;
 		
-		step = func();
+		step = func.apply(this);
 	}
 	
 	var results = [];
@@ -405,7 +405,7 @@ Munkres.prototype.__step3 = function() {
 		}
 	}
 	
-	return (count >= n) ? 7 : 4;
+	return (count >= this.n) ? 7 : 4;
 };
 
 /**
@@ -477,7 +477,7 @@ Munkres.prototype.__step5 = function() {
 		}
 	}
 
-	this.__convert_path(path, count);
+	this.__convert_path(this.path, count);
 	this.__clear_covers();
 	this.__erase_primes();
 	return 3;
@@ -490,7 +490,7 @@ Munkres.prototype.__step5 = function() {
  * lines.
  */
 Munkres.prototype.__step6 = function() {
-	minval = this.__find_smallest();
+	var minval = this.__find_smallest();
 	
 	for (var i = 0; i < this.n; ++i) {
 		for (var j = 0; j < this.n; ++j) {
@@ -673,7 +673,7 @@ function format_matrix(matrix) {
 			var s = String(matrix[i][j]);
 			
 			// pad at front with spaces
-			while (s != columnWidths[j])
+			while (s.length < columnWidths[j])
 				s = ' ' + s;
 			
 			formatted += s;
@@ -682,6 +682,9 @@ function format_matrix(matrix) {
 			if (j != matrix[i].length - 1)
 				formatted += ' ';
 		}
+		
+		if (i != matrix[i].length - 1)
+			formatted += '\n';
 	}
 	
 	return formatted;
@@ -731,7 +734,8 @@ if (typeof require != 'undefined' &&
 		[[[10, 10,  8, 11],
 		  [9,  8,  1, 1],
 		  [9,  7,  4, 10]],
-		 15]]
+		 15]
+	];
 
 	var m = new Munkres();
 	
@@ -739,7 +743,8 @@ if (typeof require != 'undefined' &&
 		var cost_matrix = matrices[k][0];
 		var expected_total = matrices[k][1];
 		
-		console.log('cost matrix', format_matrix(cost_matrix));
+		console.log('cost matrix');
+		console.log(format_matrix(cost_matrix));
 		
 		var indices = m.compute(cost_matrix);
 		var total_cost = 0;
