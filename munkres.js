@@ -694,7 +694,7 @@ function format_matrix(matrix) {
 // Exports
 // ---------------------------------------------------------------------------
 
-if (exports) {
+if (typeof exports != 'undefined' && exports) {
 	exports.version = "1.1.0";
 	exports.format_matrix = format_matrix;
 	exports.make_cost_matrix = make_cost_matrix;
@@ -734,7 +734,13 @@ if (typeof require != 'undefined' &&
 		[[[10, 10,  8, 11],
 		  [9,  8,  1, 1],
 		  [9,  7,  4, 10]],
-		 15]
+		 15],
+		 
+		// All-zero square
+		[[[0, 0, 0],
+		  [0, 0, 0],
+		  [0, 0, 0]],
+		 0],
 	];
 
 	var m = new Munkres();

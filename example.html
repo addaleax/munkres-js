@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Example for munkres-js</title>
+		<script src="munkres.js" type="text/javascript"></script>
+		<script type="text/javascript">/*<![CDATA[*/
+			var N = 5;
+			
+			document.addEventListener('DOMContentLoaded', function() {
+				// set up table
+				var table = document.getElementById('example-table');
+				
+				for (var i = 0; i < N; ++i) {
+					var tr = document.createElement('tr');
+					
+					for (var j = 0; j < N; ++j) {
+						var td = document.createElement('td');
+						td.setAttribute('id', 'tab-' + i + '-' + j);
+						var input = document.createElement('input');
+						input.setAttribute('type', 'text');
+						input.addEventListener('change', update);
+						td.appendChild(input);
+						tr.appendChild(td);
+					}
+					
+					table.appendChild(tr);
+				}
+				
+				update();
+			});
+			
+			function update() {
+				var matrix = [];
+				for (var i = 0; i < N; ++i) {
+					matrix[i] = [];
+					for (var j = 0; j < N; ++j) 
+						matrix[i][j] = parseInt(document.getElementById('tab-' + i + '-' + j).children[0].value) || 0;
+				}
+				
+				var m = new Munkres();
+				var indices = m.compute(matrix);
+				
+				var totalCost = 0;
+				for (var i = 0; i < N; ++i) 
+					for (var j = 0; j < N; ++j) 
+						document.getElementById('tab-' + i + '-' + j).className = '';
+				
+				for (var k = 0; k < indices.length; ++k) {
+					var i = indices[k][0], j = indices[k][1];
+					totalCost += matrix[i][j];
+					document.getElementById('tab-' + i + '-' + j).className = 'active';
+				}
+				
+				document.getElementById('total-cost').value = totalCost;
+			}
+		/*]]>*/</script>
+		
+		<style>/*<![CDATA[*/
+		.active {
+			background-color: #e77;
+		}
+		/*]]>*/</style>
+	</head>
+	<body>
+		<h1>Example usage of <code>munkres-js</code></h1>
+		<table id="example-table">
+		</table>
+		<p>
+			Total Cost: <input disabled="distabled" id="total-cost" />
+		</p>
+	</body>
+</html>
