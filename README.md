@@ -11,13 +11,21 @@ job, and it figures out the least-cost solution, choosing a single item
 from each row and column in the matrix, such that no row and no column are
 used more than once.
 
-[Hungarian algorithm]: http://en.wikipedia.org/wiki/Hungarian_algorithm
+[Hungarian algorithm]: https://en.wikipedia.org/wiki/Hungarian_algorithm
 
 See the docs in munkres.js for more details.
 
+## Meta
+
+This module is a translation of a Python implementation by
+[Brian Clapper](https://github.com/bmc/munkres).
+
+
+
 ## Copyright
 
-&copy; 2014 Hauke Henningsen
+&copy; 2014 Hauke Henningsen (Conversion to JS)
+
 &copy; 2008 Brian M. Clapper
 
 ## License

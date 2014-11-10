@@ -170,7 +170,7 @@
  *    *Journal of the Society of Industrial and Applied Mathematics*,
  *    5(1):32-38, March, 1957.
  * 
- * 5. http://en.wikipedia.org/wiki/Hungarian_algorithm
+ * 5. https://en.wikipedia.org/wiki/Hungarian_algorithm
  * 
  * Copyright and License
  * =====================
