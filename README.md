@@ -20,7 +20,7 @@ See the docs in munkres.js for more details.
 This module is a translation of a Python implementation by
 [Brian Clapper](https://github.com/bmc/munkres).
 
-
+It is available via `bower` and `npm` as `munkres-js`.
 
 ## Copyright
 
