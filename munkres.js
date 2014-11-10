@@ -208,7 +208,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-var maxsize = Number.MAX_SAFE_INTEGER || (1 << 52);
+var MAX_SIZE = Number.MAX_SAFE_INTEGER || (1 << 52);
+var DEFAULT_PAD_VALUE = 0;
 
 // ---------------------------------------------------------------------------
 // Classes
@@ -244,7 +245,7 @@ function Munkres() {
  * return: a new, possibly padded, matrix
  */
 Munkres.prototype.pad_matrix = function(matrix, pad_value) {
-	pad_value = pad_value || 0;
+	pad_value = pad_value || DEFAULT_PAD_VALUE;
 
 	var max_columns = 0;
 	var total_rows = matrix.length;
@@ -291,8 +292,12 @@ Munkres.prototype.pad_matrix = function(matrix, pad_value) {
  * return A list of ``(row, column)`` tuples that describe the lowest
  * 		 cost path through the matrix
  */
-Munkres.prototype.compute = function(cost_matrix) {
-	this.C = this.pad_matrix(cost_matrix);
+Munkres.prototype.compute = function(cost_matrix, options) {
+
+	options = options || {};
+	options.padValue = options.padValue || DEFAULT_PAD_VALUE;
+
+	this.C = this.pad_matrix(cost_matrix, options.padValue);
 	this.n = this.C.length;
 	this.original_length = cost_matrix.length;
 	this.original_width = cost_matrix[0].length;
@@ -506,7 +511,7 @@ Munkres.prototype.__step6 = function() {
 
 /** Find the smallest uncovered value in the matrix. */
 Munkres.prototype.__find_smallest = function() {
-	var minval = maxsize;
+	var minval = MAX_SIZE;
 
 	for (var i = 0; i < this.n; ++i)
 		for (var j = 0; j < this.n; ++j)
