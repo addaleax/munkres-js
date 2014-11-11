@@ -218,6 +218,7 @@ var DEFAULT_PAD_VALUE = 0;
 /**
  * Calculate the Munkres solution to the classical assignment problem.
  * See the module documentation for usage.
+ * @constructor
  */
 function Munkres() {
 	this.C = null
@@ -234,15 +235,10 @@ function Munkres() {
 /**
  * Pad a possibly non-square matrix to make it square.
  *
- * Parameters
- * 	matrix : list of lists
- * 		matrix to pad
+ * @param {Array} matrix An array of arrays containing the matrix cells
+ * @param {Number} [pad_value] The value used to pad a rectangular matrix
  *
- * 	pad_value : int
- * 		value to use to pad the matrix
- *
- * rtype: list of lists
- * return: a new, possibly padded, matrix
+ * @return {Array} An array of arrays representing the padded matrix
  */
 Munkres.prototype.pad_matrix = function(matrix, pad_value) {
 	pad_value = pad_value || DEFAULT_PAD_VALUE;
@@ -273,24 +269,23 @@ Munkres.prototype.pad_matrix = function(matrix, pad_value) {
 };
 
 /**
+ * Compute the indices for the lowest-cost pairings between rows and columns
+ * in the database. Returns a list of (row, column) tuples that can be used
+ * to traverse the matrix.
  *
- * Compute the indices for the lowest-cost pairings between rows and
- * columns in the database. Returns a list of (row, column) tuples
- * that can be used to traverse the matrix.
+ * **WARNING**: This code handles square and rectangular matrices.
+ * It does *not* handle irregular matrices.
  *
- * Parameters
- * 	cost_matrix : list of lists
- * 		The cost matrix. If this cost matrix is not square, it
- * 		will be padded with zeros, via a call to ``pad_matrix()``.
- * 		(This method does *not* modify the caller's matrix. It
- * 		operates on a copy of the matrix.)
+ * @param {Array} cost_matrix The cost matrix. If this cost matrix is not square,
+ *                            it will be padded with DEFAULT_PAD_VALUE. Optionally,
+ *                            the pad value can be specified via options.padValue.
+ *                            This method does *not* modify the caller's matrix.
+ *                            It operates on a copy of the matrix.
+ * @param {Object} [options] Additional options to pass in
+ * @param {Number} [options.padValue] The value to use to pad a rectangular cost_matrix
  *
- * 		**WARNING**: This code handles square and rectangular
- * 		matrices. It does *not* handle irregular matrices.
- *
- * rtype list
- * return A list of ``(row, column)`` tuples that describe the lowest
- * 		 cost path through the matrix
+ * @return {Array} An array of ``(row, column)`` arrays that describe the lowest
+ *                 cost path through the matrix
  */
 Munkres.prototype.compute = function(cost_matrix, options) {
 
@@ -340,6 +335,11 @@ Munkres.prototype.compute = function(cost_matrix, options) {
 
 /**
  * Create an n×n matrix, populating it with the specific value.
+ *
+ * @param {Number} n Matrix dimensions
+ * @param {Number} val Value to populate the matrix with
+ *
+ * @return {Array} An array of arrays representing the newly created matrix
  */
 Munkres.prototype.__make_matrix = function(n, val) {
 	var matrix = [];
@@ -509,7 +509,11 @@ Munkres.prototype.__step6 = function() {
 	return 4;
 };
 
-/** Find the smallest uncovered value in the matrix. */
+/**
+ * Find the smallest uncovered value in the matrix.
+ *
+ * @return {Number} The smallest uncovered value, or MAX_SIZE if no value was found
+ */
 Munkres.prototype.__find_smallest = function() {
 	var minval = MAX_SIZE;
 
@@ -522,7 +526,11 @@ Munkres.prototype.__find_smallest = function() {
 	return minval;
 };
 
-/** Find the first uncovered element with value 0 */
+/**
+ * Find the first uncovered element with value 0.
+ *
+ * @return {Array} The indices of the found element or [-1, -1] if not found
+ */
 Munkres.prototype.__find_a_zero = function() {
 	for (var i = 0; i < this.n; ++i)
 		for (var j = 0; j < this.n; ++j)
@@ -537,6 +545,9 @@ Munkres.prototype.__find_a_zero = function() {
 /**
  * Find the first starred element in the specified row. Returns
  * the column index, or -1 if no starred element was found.
+ *
+ * @param {Number} row The index of the row to search
+ * @return {Number}
  */
 
 Munkres.prototype.__find_star_in_row = function(row) {
@@ -548,8 +559,9 @@ Munkres.prototype.__find_star_in_row = function(row) {
 };
 
 /**
- * Find the first starred element in the specified column. Returns
- * the row index, or -1 if no starred element was found.
+ * Find the first starred element in the specified column.
+ *
+ * @return {Number} The row index, or -1 if no starred element was found
  */
 Munkres.prototype.__find_star_in_col = function(col) {
 	for (var i = 0; i < this.n; ++i)
@@ -560,8 +572,9 @@ Munkres.prototype.__find_star_in_col = function(col) {
 };
 
 /**
- * Find the first prime element in the specified row. Returns
- * the column index, or -1 if no starred element was found.
+ * Find the first prime element in the specified row.
+ *
+ * @return {Number} The column index, or -1 if no prime element was found
  */
 
 Munkres.prototype.__find_prime_in_row = function(row) {
@@ -613,15 +626,12 @@ Munkres.prototype.__erase_primes = function() {
  *
  * 	cost_matrix = make_cost_matrix(matrix, function(x) { return MAXIMUM - x; });
  *
- * Parameters
- * 	profit_matrix : list of lists
- * 		The matrix to convert from a profit to a cost matrix
+ * @param {Array} profit_matrix An array of arrays representing the matrix
+ *                              to convert from a profit to a cost matrix
+ * @param {Function} [inversion_function] The function to use to invert each
+ *                                       entry in the profit matrix
  *
- * 	inversion_function : function
- * 		The function to use to invert each entry in the profit matrix
- *
- * rtype list of lists
- * return The converted matrix
+ * @return {Array} The converted matrix
  */
 function make_cost_matrix (profit_matrix, inversion_function) {
 	if (!inversion_function) {
@@ -651,9 +661,9 @@ function make_cost_matrix (profit_matrix, inversion_function) {
  * Convenience function: Converts the contents of a matrix of integers
  * to a printable string.
  *
- * Parameters
- * 	matrix : list of lists
- * 		Matrix to print
+ * @param {Array} matrix The matrix to print
+ *
+ * @return {String} The formatted matrix
  */
 function format_matrix(matrix) {
 	function log10(v) {
