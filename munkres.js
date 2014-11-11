@@ -208,7 +208,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-var MAX_SIZE = Number.MAX_SAFE_INTEGER || (1 << 52);
+/**
+ * A very large numerical value which can be used like an integer
+ * (i. e., adding integers of similar size does not result in overflow).
+ */
+var MAX_SIZE = parseInt(Number.MAX_SAFE_INTEGER/2) || ((1 << 26)*(1 << 26));
+
+/**
+ * A default value to pad the cost matrix with if it is not quadratic.
+ */
 var DEFAULT_PAD_VALUE = 0;
 
 // ---------------------------------------------------------------------------
