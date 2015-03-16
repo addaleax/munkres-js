@@ -22,9 +22,9 @@
 	},
 	"scripts": {
 		"test": "node munkres"
-	}
+	},
 	"devDependencies": {
 		"istanbul": "*",
 		"coveralls": "*"
-	},
+	}
 }
