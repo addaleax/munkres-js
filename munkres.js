@@ -268,7 +268,7 @@ Munkres.prototype.pad_matrix = function(matrix, pad_value) {
 
 		// If this row is too short, pad it
 		while (total_rows > new_row.length)
-			new_row.push(0);
+			new_row.push(pad_value);
 
 		new_matrix.push(new_row);
 	}
