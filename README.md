@@ -1,6 +1,14 @@
 Munkres implementation for Javascript
 ---------------------------------
 
+![Bower Version](https://img.shields.io/bower/v/munkres-js.svg?style=flat)
+[![NPM Version](https://img.shields.io/npm/v/munkres-js.svg?style=flat)](https://npmjs.org/package/munkres-js)
+[![NPM Downloads](https://img.shields.io/npm/dm/munkres-js.svg?style=flat)](https://npmjs.org/package/munkres-js)
+[![Build Status](https://travis-ci.org/addaleax/munkres-js.svg?style=flat&branch=master)](https://travis-ci.org/addaleax/munkres-js?branch=master)
+[![Coverage Status](https://coveralls.io/repos/addaleax/munkres-js/badge.svg?branch=master)](https://coveralls.io/r/addaleax/munkres-js?branch=master)
+[![Dependency Status](https://david-dm.org/addaleax/munkres-js.svg?style=flat)](https://david-dm.org/addaleax/munkres-js)
+[![devDependency Status](https://david-dm.org/addaleax/munkres-js/dev-status.svg?style=flat)](https://david-dm.org/addaleax/munkres-js#info=devDependencies)
+
 ## Introduction
 
 The Munkres module provides an implementation of the Munkres algorithm
