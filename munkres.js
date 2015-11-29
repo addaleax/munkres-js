@@ -84,7 +84,7 @@
  * This version was originally written for Python by Brian Clapper from the (Ada)
  * algorithm at the above web site (The ``Algorithm::Munkres`` Perl version,
  * in CPAN, was clearly adapted from the same web site.) and ported to
- * JavaScript by Hauke Henningsen (addaleax).
+ * JavaScript by Anna Henningsen (addaleax).
  *
  * Usage
  * =====

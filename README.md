@@ -32,7 +32,7 @@ It is available via `bower` and `npm` as `munkres-js`.
 
 ## Copyright
 
-&copy; 2014 Hauke Henningsen (Conversion to JS)
+&copy; 2014 Anna Henningsen (Conversion to JS)
 
 &copy; 2008 Brian M. Clapper
 
