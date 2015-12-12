@@ -13,7 +13,7 @@
 		"munkres",
 		"hungarian"
 	],
-	"license": "BSD",
+	"license": "BSD-3-Clause",
 	"bugs": {
 		"url": "https://github.com/addaleax/munkres-js/issues"
 	},
