@@ -1,4 +1,4 @@
-"use strict";
+(function() { "use strict";
 
 /**
  * Introduction
@@ -22,50 +22,50 @@
  * are used more than once. For instance, given this matrix (expressed in
  * Python)
  *
- * 	matrix = [[5, 9, 1],
- * 			  [10, 3, 2],
- * 			  [8, 7, 4]]
+ *  matrix = [[5, 9, 1],
+ *        [10, 3, 2],
+ *        [8, 7, 4]]
  *
  * You could use this code to generate the traversal indices::
  *
- * 	def permute(a, results):
- * 		if len(a) == 1:
- * 			results.insert(len(results), a)
+ *  def permute(a, results):
+ *    if len(a) == 1:
+ *      results.insert(len(results), a)
  *
- * 		else:
- * 			for i in range(0, len(a)):
- * 				element = a[i]
- * 				a_copy = [a[j] for j in range(0, len(a)) if j != i]
- * 				subresults = []
- * 				permute(a_copy, subresults)
- * 				for subresult in subresults:
- * 					result = [element] + subresult
- * 					results.insert(len(results), result)
+ *    else:
+ *      for i in range(0, len(a)):
+ *        element = a[i]
+ *        a_copy = [a[j] for j in range(0, len(a)) if j != i]
+ *        subresults = []
+ *        permute(a_copy, subresults)
+ *        for subresult in subresults:
+ *          result = [element] + subresult
+ *          results.insert(len(results), result)
  *
- * 	results = []
- * 	permute(range(len(matrix)), results) # [0, 1, 2] for a 3x3 matrix
+ *  results = []
+ *  permute(range(len(matrix)), results) # [0, 1, 2] for a 3x3 matrix
  *
  * After the call to permute(), the results matrix would look like this::
  *
- * 	[[0, 1, 2],
- * 	 [0, 2, 1],
- * 	 [1, 0, 2],
- * 	 [1, 2, 0],
- * 	 [2, 0, 1],
- * 	 [2, 1, 0]]
+ *  [[0, 1, 2],
+ *   [0, 2, 1],
+ *   [1, 0, 2],
+ *   [1, 2, 0],
+ *   [2, 0, 1],
+ *   [2, 1, 0]]
  *
  * You could then use that index matrix to loop over the original cost matrix
  * and calculate the smallest cost of the combinations
  *
- * 	n = len(matrix)
- * 	minval = sys.maxsize
- * 	for row in range(n):
- * 		cost = 0
- * 		for col in range(n):
- * 			cost += matrix[row][col]
- * 		minval = min(cost, minval)
+ *  n = len(matrix)
+ *  minval = sys.maxsize
+ *  for row in range(n):
+ *    cost = 0
+ *    for col in range(n):
+ *      cost += matrix[row][col]
+ *    minval = min(cost, minval)
  *
- * 	print minval
+ *  print minval
  *
  * While this approach works fine for small matrices, it does not scale. It
  * executes in O(n!) time: Calculating the permutations for an n×x-matrix
@@ -91,38 +91,38 @@
  *
  * Construct a Munkres object
  *
- * 	var m = new Munkres();
+ *  var m = new Munkres();
  *
  * Then use it to compute the lowest cost assignment from a cost matrix. Here’s
  * a sample program
  *
- * 	var matrix = [[5, 9, 1],
- * 			     [10, 3, 2],
- * 			     [8, 7, 4]];
- * 	var m = new Munkres();
- * 	var indices = m.compute(matrix);
- * 	console.log(format_matrix(matrix), 'Lowest cost through this matrix:');
- * 	var total = 0;
- * 	for (var i = 0; i < indices.length; ++i) {
- * 		var row = indices[l][0], col = indices[l][1];
- * 		var value = matrix[row][col];
- * 		total += value;
+ *  var matrix = [[5, 9, 1],
+ *           [10, 3, 2],
+ *           [8, 7, 4]];
+ *  var m = new Munkres();
+ *  var indices = m.compute(matrix);
+ *  console.log(format_matrix(matrix), 'Lowest cost through this matrix:');
+ *  var total = 0;
+ *  for (var i = 0; i < indices.length; ++i) {
+ *    var row = indices[l][0], col = indices[l][1];
+ *    var value = matrix[row][col];
+ *    total += value;
  *
- * 		console.log('(' + rol + ', ' + col + ') -> ' + value);
- * 	}
+ *    console.log('(' + rol + ', ' + col + ') -> ' + value);
+ *  }
  *
- * 	console.log('total cost:', total);
+ *  console.log('total cost:', total);
  *
  * Running that program produces::
  *
- * 	Lowest cost through this matrix:
- * 	[5, 9, 1]
- * 	[10, 3, 2]
- * 	[8, 7, 4]
- * 	(0, 0) -> 5
- * 	(1, 1) -> 3
- * 	(2, 2) -> 4
- * 	total cost: 12
+ *  Lowest cost through this matrix:
+ *  [5, 9, 1]
+ *  [10, 3, 2]
+ *  [8, 7, 4]
+ *  (0, 0) -> 5
+ *  (1, 1) -> 3
+ *  (2, 2) -> 4
+ *  total cost: 12
  *
  * The instantiated Munkres object can be used multiple times on different
  * matrices.
@@ -229,15 +229,15 @@ var DEFAULT_PAD_VALUE = 0;
  * @constructor
  */
 function Munkres() {
-	this.C = null
+  this.C = null;
 
-	this.row_covered = []
-	this.col_covered = []
-	this.n = 0
-	this.Z0_r = 0
-	this.Z0_c = 0
-	this.marked = null
-	this.path = null
+  this.row_covered = [];
+  this.col_covered = [];
+  this.n = 0;
+  this.Z0_r = 0;
+  this.Z0_c = 0;
+  this.marked = null;
+  this.path = null;
 }
 
 /**
@@ -249,31 +249,32 @@ function Munkres() {
  * @return {Array} An array of arrays representing the padded matrix
  */
 Munkres.prototype.pad_matrix = function(matrix, pad_value) {
-	pad_value = pad_value || DEFAULT_PAD_VALUE;
+  pad_value = pad_value || DEFAULT_PAD_VALUE;
 
-	var max_columns = 0;
-	var total_rows = matrix.length;
+  var max_columns = 0;
+  var total_rows = matrix.length;
+  var i;
 
-	for (var i = 0; i < total_rows; ++i)
-		if (matrix[i].length > max_columns)
-			max_columns = matrix[i].length;
+  for (i = 0; i < total_rows; ++i)
+    if (matrix[i].length > max_columns)
+      max_columns = matrix[i].length;
 
-	total_rows = max_columns > total_rows ? max_columns : total_rows;
+  total_rows = max_columns > total_rows ? max_columns : total_rows;
 
-	var new_matrix = [];
+  var new_matrix = [];
 
-	for (var i = 0; i < total_rows; ++i) {
-		var row = matrix[i] || [];
-		var new_row = row.slice();
+  for (i = 0; i < total_rows; ++i) {
+    var row = matrix[i] || [];
+    var new_row = row.slice();
 
-		// If this row is too short, pad it
-		while (total_rows > new_row.length)
-			new_row.push(pad_value);
+    // If this row is too short, pad it
+    while (total_rows > new_row.length)
+      new_row.push(pad_value);
 
-		new_matrix.push(new_row);
-	}
+    new_matrix.push(new_row);
+  }
 
-	return new_matrix;
+  return new_matrix;
 };
 
 /**
@@ -297,48 +298,48 @@ Munkres.prototype.pad_matrix = function(matrix, pad_value) {
  */
 Munkres.prototype.compute = function(cost_matrix, options) {
 
-	options = options || {};
-	options.padValue = options.padValue || DEFAULT_PAD_VALUE;
+  options = options || {};
+  options.padValue = options.padValue || DEFAULT_PAD_VALUE;
 
-	this.C = this.pad_matrix(cost_matrix, options.padValue);
-	this.n = this.C.length;
-	this.original_length = cost_matrix.length;
-	this.original_width = cost_matrix[0].length;
+  this.C = this.pad_matrix(cost_matrix, options.padValue);
+  this.n = this.C.length;
+  this.original_length = cost_matrix.length;
+  this.original_width = cost_matrix[0].length;
 
-	var nfalseArray = []; /* array of n false values */
-	while (nfalseArray.length < this.n)
-		nfalseArray.push(false);
-	this.row_covered = nfalseArray.slice();
-	this.col_covered = nfalseArray.slice();
-	this.Z0_r = 0;
-	this.Z0_c = 0;
-	this.path =   this.__make_matrix(this.n * 2, 0);
-	this.marked = this.__make_matrix(this.n, 0);
+  var nfalseArray = []; /* array of n false values */
+  while (nfalseArray.length < this.n)
+    nfalseArray.push(false);
+  this.row_covered = nfalseArray.slice();
+  this.col_covered = nfalseArray.slice();
+  this.Z0_r = 0;
+  this.Z0_c = 0;
+  this.path =   this.__make_matrix(this.n * 2, 0);
+  this.marked = this.__make_matrix(this.n, 0);
 
-	var step = 1;
+  var step = 1;
 
-	var steps = { 1 : this.__step1,
-	              2 : this.__step2,
-	              3 : this.__step3,
-	              4 : this.__step4,
-	              5 : this.__step5,
-	              6 : this.__step6 };
+  var steps = { 1 : this.__step1,
+                2 : this.__step2,
+                3 : this.__step3,
+                4 : this.__step4,
+                5 : this.__step5,
+                6 : this.__step6 };
 
-	while (true) {
-		var func = steps[step];
-		if (!func) // done
-			break;
+  while (true) {
+    var func = steps[step];
+    if (!func) // done
+      break;
 
-		step = func.apply(this);
-	}
+    step = func.apply(this);
+  }
 
-	var results = [];
-	for (var i = 0; i < this.original_length; ++i)
-		for (var j = 0; j < this.original_width; ++j)
-			if (this.marked[i][j] == 1)
-				results.push([i, j]);
+  var results = [];
+  for (var i = 0; i < this.original_length; ++i)
+    for (var j = 0; j < this.original_width; ++j)
+      if (this.marked[i][j] == 1)
+        results.push([i, j]);
 
-	return results;
+  return results;
 };
 
 /**
@@ -350,14 +351,14 @@ Munkres.prototype.compute = function(cost_matrix, options) {
  * @return {Array} An array of arrays representing the newly created matrix
  */
 Munkres.prototype.__make_matrix = function(n, val) {
-	var matrix = [];
-	for (var i = 0; i < n; ++i) {
-		matrix[i] = [];
-		for (var j = 0; j < n; ++j)
-			matrix[i][j] = val;
-	}
+  var matrix = [];
+  for (var i = 0; i < n; ++i) {
+    matrix[i] = [];
+    for (var j = 0; j < n; ++j)
+      matrix[i][j] = val;
+  }
 
-	return matrix;
+  return matrix;
 };
 
 /**
@@ -365,16 +366,16 @@ Munkres.prototype.__make_matrix = function(n, val) {
  * subtract it from every element in its row. Go to Step 2.
  */
 Munkres.prototype.__step1 = function() {
-	for (var i = 0; i < this.n; ++i) {
-		// Find the minimum value for this row and subtract that minimum
-		// from every element in the row.
-		var minval = Math.min.apply(Math, this.C[i]);
+  for (var i = 0; i < this.n; ++i) {
+    // Find the minimum value for this row and subtract that minimum
+    // from every element in the row.
+    var minval = Math.min.apply(Math, this.C[i]);
 
-		for (var j = 0; j < this.n; ++j)
-			this.C[i][j] -= minval;
-	}
+    for (var j = 0; j < this.n; ++j)
+      this.C[i][j] -= minval;
+  }
 
-	return 2;
+  return 2;
 };
 
 /**
@@ -383,22 +384,22 @@ Munkres.prototype.__step1 = function() {
  * matrix. Go to Step 3.
  */
 Munkres.prototype.__step2 = function() {
-	for (var i = 0; i < this.n; ++i) {
-		for (var j = 0; j < this.n; ++j) {
-			if (this.C[i][j] == 0 &&
-				!this.col_covered[j] &&
-				!this.row_covered[i])
-			{
-				this.marked[i][j] = 1;
-				this.col_covered[j] = true;
-				this.row_covered[i] = true;
-			}
-		}
-	}
+  for (var i = 0; i < this.n; ++i) {
+    for (var j = 0; j < this.n; ++j) {
+      if (this.C[i][j] === 0 &&
+        !this.col_covered[j] &&
+        !this.row_covered[i])
+      {
+        this.marked[i][j] = 1;
+        this.col_covered[j] = true;
+        this.row_covered[i] = true;
+      }
+    }
+  }
 
-	this.__clear_covers();
+  this.__clear_covers();
 
-	return 3;
+  return 3;
 };
 
 /**
@@ -407,18 +408,18 @@ Munkres.prototype.__step2 = function() {
  * assignments. In this case, Go to DONE, otherwise, Go to Step 4.
  */
 Munkres.prototype.__step3 = function() {
-	var count = 0;
+  var count = 0;
 
-	for (var i = 0; i < this.n; ++i) {
-		for (var j = 0; j < this.n; ++j) {
-			if (this.marked[i][j] == 1) {
-				this.col_covered[j] = true;
-				++count;
-			}
-		}
-	}
+  for (var i = 0; i < this.n; ++i) {
+    for (var j = 0; j < this.n; ++j) {
+      if (this.marked[i][j] == 1) {
+        this.col_covered[j] = true;
+        ++count;
+      }
+    }
+  }
 
-	return (count >= this.n) ? 7 : 4;
+  return (count >= this.n) ? 7 : 4;
 };
 
 /**
@@ -430,29 +431,29 @@ Munkres.prototype.__step3 = function() {
  */
 
 Munkres.prototype.__step4 = function() {
-	var done = false;
-	var row = -1, col = -1, star_col = -1;
+  var done = false;
+  var row = -1, col = -1, star_col = -1;
 
-	while (!done) {
-		var z = this.__find_a_zero();
-		row = z[0];
-		col = z[1];
+  while (!done) {
+    var z = this.__find_a_zero();
+    row = z[0];
+    col = z[1];
 
-		if (row < 0)
-			return 6;
+    if (row < 0)
+      return 6;
 
-		this.marked[row][col] = 2;
-		star_col = this.__find_star_in_row(row);
-		if (star_col >= 0) {
-			col = star_col;
-			this.row_covered[row] = true;
-			this.col_covered[col] = false;
-		} else {
-			this.Z0_r = row;
-			this.Z0_c = col;
-			return 5;
-		}
-	}
+    this.marked[row][col] = 2;
+    star_col = this.__find_star_in_row(row);
+    if (star_col >= 0) {
+      col = star_col;
+      this.row_covered[row] = true;
+      this.col_covered[col] = false;
+    } else {
+      this.Z0_r = row;
+      this.Z0_c = col;
+      return 5;
+    }
+  }
 };
 
 /**
@@ -466,34 +467,34 @@ Munkres.prototype.__step4 = function() {
  * primes and uncover every line in the matrix. Return to Step 3
  */
 Munkres.prototype.__step5 = function() {
-	var count = 0;
+  var count = 0;
 
-	this.path[count][0] = this.Z0_r;
-	this.path[count][1] = this.Z0_c;
-	var done = false;
+  this.path[count][0] = this.Z0_r;
+  this.path[count][1] = this.Z0_c;
+  var done = false;
 
-	while (!done) {
-		var row = this.__find_star_in_col(this.path[count][1]);
-		if (row >= 0) {
-			count++;
-			this.path[count][0] = row;
-			this.path[count][1] = this.path[count-1][1];
-		} else {
-			done = true
-		}
+  while (!done) {
+    var row = this.__find_star_in_col(this.path[count][1]);
+    if (row >= 0) {
+      count++;
+      this.path[count][0] = row;
+      this.path[count][1] = this.path[count-1][1];
+    } else {
+      done = true;
+    }
 
-		if (!done) {
-			var col = this.__find_prime_in_row(this.path[count][0]);
-			count++;
-			this.path[count][0] = this.path[count-1][0];
-			this.path[count][1] = col;
-		}
-	}
+    if (!done) {
+      var col = this.__find_prime_in_row(this.path[count][0]);
+      count++;
+      this.path[count][0] = this.path[count-1][0];
+      this.path[count][1] = col;
+    }
+  }
 
-	this.__convert_path(this.path, count);
-	this.__clear_covers();
-	this.__erase_primes();
-	return 3;
+  this.__convert_path(this.path, count);
+  this.__clear_covers();
+  this.__erase_primes();
+  return 3;
 };
 
 /**
@@ -503,18 +504,18 @@ Munkres.prototype.__step5 = function() {
  * lines.
  */
 Munkres.prototype.__step6 = function() {
-	var minval = this.__find_smallest();
+  var minval = this.__find_smallest();
 
-	for (var i = 0; i < this.n; ++i) {
-		for (var j = 0; j < this.n; ++j) {
-			if (this.row_covered[i])
-				this.C[i][j] += minval;
-			if (!this.col_covered[j])
-				this.C[i][j] -= minval;
-		}
-	}
+  for (var i = 0; i < this.n; ++i) {
+    for (var j = 0; j < this.n; ++j) {
+      if (this.row_covered[i])
+        this.C[i][j] += minval;
+      if (!this.col_covered[j])
+        this.C[i][j] -= minval;
+    }
+  }
 
-	return 4;
+  return 4;
 };
 
 /**
@@ -523,15 +524,15 @@ Munkres.prototype.__step6 = function() {
  * @return {Number} The smallest uncovered value, or MAX_SIZE if no value was found
  */
 Munkres.prototype.__find_smallest = function() {
-	var minval = MAX_SIZE;
+  var minval = MAX_SIZE;
 
-	for (var i = 0; i < this.n; ++i)
-		for (var j = 0; j < this.n; ++j)
-			if (!this.row_covered[i] && !this.col_covered[j])
-				if (minval > this.C[i][j])
-					minval = this.C[i][j];
+  for (var i = 0; i < this.n; ++i)
+    for (var j = 0; j < this.n; ++j)
+      if (!this.row_covered[i] && !this.col_covered[j])
+        if (minval > this.C[i][j])
+          minval = this.C[i][j];
 
-	return minval;
+  return minval;
 };
 
 /**
@@ -540,14 +541,14 @@ Munkres.prototype.__find_smallest = function() {
  * @return {Array} The indices of the found element or [-1, -1] if not found
  */
 Munkres.prototype.__find_a_zero = function() {
-	for (var i = 0; i < this.n; ++i)
-		for (var j = 0; j < this.n; ++j)
-			if (this.C[i][j] == 0 &&
-				!this.row_covered[i] &&
-				!this.col_covered[j])
-				return [i, j];
+  for (var i = 0; i < this.n; ++i)
+    for (var j = 0; j < this.n; ++j)
+      if (this.C[i][j] === 0 &&
+        !this.row_covered[i] &&
+        !this.col_covered[j])
+        return [i, j];
 
-	return [-1, -1];
+  return [-1, -1];
 };
 
 /**
@@ -559,11 +560,11 @@ Munkres.prototype.__find_a_zero = function() {
  */
 
 Munkres.prototype.__find_star_in_row = function(row) {
-	for (var j = 0; j < this.n; ++j)
-		if (this.marked[row][j] == 1)
-			return j;
+  for (var j = 0; j < this.n; ++j)
+    if (this.marked[row][j] == 1)
+      return j;
 
-	return -1;
+  return -1;
 };
 
 /**
@@ -572,11 +573,11 @@ Munkres.prototype.__find_star_in_row = function(row) {
  * @return {Number} The row index, or -1 if no starred element was found
  */
 Munkres.prototype.__find_star_in_col = function(col) {
-	for (var i = 0; i < this.n; ++i)
-		if (this.marked[i][col] == 1)
-			return i;
+  for (var i = 0; i < this.n; ++i)
+    if (this.marked[i][col] == 1)
+      return i;
 
-	return -1;
+  return -1;
 };
 
 /**
@@ -586,33 +587,33 @@ Munkres.prototype.__find_star_in_col = function(col) {
  */
 
 Munkres.prototype.__find_prime_in_row = function(row) {
-	for (var j = 0; j < this.n; ++j)
-		if (this.marked[row][j] == 2)
-			return j;
+  for (var j = 0; j < this.n; ++j)
+    if (this.marked[row][j] == 2)
+      return j;
 
-	return -1;
+  return -1;
 };
 
 Munkres.prototype.__convert_path = function(path, count) {
-	for (var i = 0; i <= count; ++i)
-		this.marked[path[i][0]][path[i][1]] =
-			(this.marked[path[i][0]][path[i][1]] == 1) ? 0 : 1;
+  for (var i = 0; i <= count; ++i)
+    this.marked[path[i][0]][path[i][1]] =
+      (this.marked[path[i][0]][path[i][1]] == 1) ? 0 : 1;
 };
 
 /** Clear all covered matrix cells */
 Munkres.prototype.__clear_covers = function() {
-	for (var i = 0; i < this.n; ++i) {
-		this.row_covered[i] = false;
-		this.col_covered[i] = false;
-	}
+  for (var i = 0; i < this.n; ++i) {
+    this.row_covered[i] = false;
+    this.col_covered[i] = false;
+  }
 };
 
 /** Erase all prime markings */
 Munkres.prototype.__erase_primes = function() {
-	for (var i = 0; i < this.n; ++i)
-		for (var j = 0; j < this.n; ++j)
-			if (this.marked[i][j] == 2)
-				this.marked[i][j] = 0;
+  for (var i = 0; i < this.n; ++i)
+    for (var j = 0; j < this.n; ++j)
+      if (this.marked[i][j] == 2)
+        this.marked[i][j] = 0;
 };
 
 // ---------------------------------------------------------------------------
@@ -628,11 +629,11 @@ Munkres.prototype.__erase_primes = function() {
  *
  * This is a static method. Call it like this:
  *
- * 	cost_matrix = make_cost_matrix(matrix[, inversion_func]);
+ *  cost_matrix = make_cost_matrix(matrix[, inversion_func]);
  *
  * For example:
  *
- * 	cost_matrix = make_cost_matrix(matrix, function(x) { return MAXIMUM - x; });
+ *  cost_matrix = make_cost_matrix(matrix, function(x) { return MAXIMUM - x; });
  *
  * @param {Array} profit_matrix An array of arrays representing the matrix
  *                              to convert from a profit to a cost matrix
@@ -642,27 +643,28 @@ Munkres.prototype.__erase_primes = function() {
  * @return {Array} The converted matrix
  */
 function make_cost_matrix (profit_matrix, inversion_function) {
-	if (!inversion_function) {
-		var maximum = -1.0/0.0;
-		for (var i = 0; i < profit_matrix.length; ++i)
-			for (var j = 0; j < profit_matrix[i].length; ++j)
-				if (profit_matrix[i][j] > maximum)
-					maximum = profit_matrix[i][j];
+  var i, j;
+  if (!inversion_function) {
+    var maximum = -1.0/0.0;
+    for (i = 0; i < profit_matrix.length; ++i)
+      for (j = 0; j < profit_matrix[i].length; ++j)
+        if (profit_matrix[i][j] > maximum)
+          maximum = profit_matrix[i][j];
 
-		inversion_function = function(x) { return maximum - x; };
-	}
+    inversion_function = function(x) { return maximum - x; };
+  }
 
-	var cost_matrix = [];
+  var cost_matrix = [];
 
-	for (var i = 0; i < profit_matrix.length; ++i) {
-		var row = profit_matrix[i];
-		cost_matrix[i] = [];
+  for (i = 0; i < profit_matrix.length; ++i) {
+    var row = profit_matrix[i];
+    cost_matrix[i] = [];
 
-		for (var j = 0; j < row.length; ++j)
-			cost_matrix[i][j] = inversion_function(profit_matrix[i][j]);
-	}
+    for (j = 0; j < row.length; ++j)
+      cost_matrix[i][j] = inversion_function(profit_matrix[i][j]);
+  }
 
-	return cost_matrix;
+  return cost_matrix;
 }
 
 /**
@@ -674,43 +676,44 @@ function make_cost_matrix (profit_matrix, inversion_function) {
  * @return {String} The formatted matrix
  */
 function format_matrix(matrix) {
-	function log10(v) {
-		if (Math.log10)
-			return Math.log10(v);
-		return Math.log(v) / Math.log(10);
-	}
+  function log10(v) {
+    if (Math.log10)
+      return Math.log10(v);
+    return Math.log(v) / Math.log(10);
+  }
 
-	var columnWidths = [];
-	for (var i = 0; i < matrix.length; ++i) {
-		for (var j = 0; j < matrix[i].length; ++j) {
-			var entryWidth = String(matrix[i][j]).length;
+  var columnWidths = [];
+  var i, j;
+  for (i = 0; i < matrix.length; ++i) {
+    for (j = 0; j < matrix[i].length; ++j) {
+      var entryWidth = String(matrix[i][j]).length;
 
-			if (!columnWidths[j] || entryWidth >= columnWidths[j])
-				columnWidths[j] = entryWidth;
-		}
-	}
+      if (!columnWidths[j] || entryWidth >= columnWidths[j])
+        columnWidths[j] = entryWidth;
+    }
+  }
 
-	var formatted = '';
-	for (var i = 0; i < matrix.length; ++i) {
-		for (var j = 0; j < matrix[i].length; ++j) {
-			var s = String(matrix[i][j]);
+  var formatted = '';
+  for (i = 0; i < matrix.length; ++i) {
+    for (j = 0; j < matrix[i].length; ++j) {
+      var s = String(matrix[i][j]);
 
-			// pad at front with spaces
-			while (s.length < columnWidths[j])
-				s = ' ' + s;
+      // pad at front with spaces
+      while (s.length < columnWidths[j])
+        s = ' ' + s;
 
-			formatted += s;
+      formatted += s;
 
-			// separate columns
-			if (j != matrix[i].length - 1)
-				formatted += ' ';
-		}
+      // separate columns
+      if (j != matrix[i].length - 1)
+        formatted += ' ';
+    }
 
-		if (i != matrix[i].length - 1)
-			formatted += '\n';
-	}
+    if (i != matrix[i].length - 1)
+      formatted += '\n';
+  }
 
-	return formatted;
+  return formatted;
 }
 
 // ---------------------------------------------------------------------------
@@ -718,10 +721,10 @@ function format_matrix(matrix) {
 // ---------------------------------------------------------------------------
 
 if (typeof exports != 'undefined' && exports) {
-	exports.version = "1.1.0";
-	exports.format_matrix = format_matrix;
-	exports.make_cost_matrix = make_cost_matrix;
-	exports.Munkres = Munkres;
+  exports.version = "1.1.0";
+  exports.format_matrix = format_matrix;
+  exports.make_cost_matrix = make_cost_matrix;
+  exports.Munkres = Munkres;
 }
 
 // ---------------------------------------------------------------------------
@@ -731,63 +734,65 @@ if (typeof exports != 'undefined' && exports) {
 if (typeof require != 'undefined' &&
     typeof module != 'undefined' &&
     require.main == module) {
-	var assert = require('assert');
+  var assert = require('assert');
 
-	var matrices = [
-		// Square
-		[[[400, 150, 400],
-		  [400, 450, 600],
-		  [300, 225, 300]],
-		 850],  // expected cost
+  var matrices = [
+    // Square
+    [[[400, 150, 400],
+      [400, 450, 600],
+      [300, 225, 300]],
+     850],  // expected cost
 
-		// Rectangular variant
-		[[[400, 150, 400, 1],
-		  [400, 450, 600, 2],
-		  [300, 225, 300, 3]],
-		 452],  // expected cost
+    // Rectangular variant
+    [[[400, 150, 400, 1],
+      [400, 450, 600, 2],
+      [300, 225, 300, 3]],
+     452],  // expected cost
 
 
-		// Square
-		[[[10, 10,  8],
-		  [9,  8,  1],
-		  [9,  7,  4]],
-		 18],
+    // Square
+    [[[10, 10,  8],
+      [9,  8,  1],
+      [9,  7,  4]],
+     18],
 
-		// Rectangular variant
-		[[[10, 10,  8, 11],
-		  [9,  8,  1, 1],
-		  [9,  7,  4, 10]],
-		 15],
+    // Rectangular variant
+    [[[10, 10,  8, 11],
+      [9,  8,  1, 1],
+      [9,  7,  4, 10]],
+     15],
 
-		// All-zero square
-		[[[0, 0, 0],
-		  [0, 0, 0],
-		  [0, 0, 0]],
-		 0],
-	];
+    // All-zero square
+    [[[0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0]],
+     0],
+  ];
 
-	var m = new Munkres();
+  var m = new Munkres();
 
-	for (var k = 0; k < matrices.length; ++k) {
-		var cost_matrix = matrices[k][0];
-		var expected_total = matrices[k][1];
+  for (var k = 0; k < matrices.length; ++k) {
+    var cost_matrix = matrices[k][0];
+    var expected_total = matrices[k][1];
 
-		console.log('cost matrix');
-		console.log(format_matrix(cost_matrix));
+    console.log('cost matrix');
+    console.log(format_matrix(cost_matrix));
 
-		var indices = m.compute(cost_matrix);
-		var total_cost = 0;
+    var indices = m.compute(cost_matrix);
+    var total_cost = 0;
 
-		for (var l = 0; l < indices.length; ++l) {
-			var r = indices[l][0], c = indices[l][1];
-			var x = cost_matrix[r][c];
-			total_cost += x;
+    for (var l = 0; l < indices.length; ++l) {
+      var r = indices[l][0], c = indices[l][1];
+      var x = cost_matrix[r][c];
+      total_cost += x;
 
-			console.log('(' + r + ', ' + c + ') -> ' + x);
-		}
+      console.log('(' + r + ', ' + c + ') -> ' + x);
+    }
 
-		console.log('lowest cost = ' + total_cost + ', expected = ' + expected_total);
+    console.log('lowest cost = ' + total_cost + ', expected = ' + expected_total);
 
-		assert.equal(expected_total, total_cost);
-	}
+    assert.equal(expected_total, total_cost);
+  }
 }
+
+})();
