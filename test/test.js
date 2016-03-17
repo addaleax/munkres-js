@@ -6,7 +6,7 @@
  */
 
 var should = require('should');
-var Munkres = require("./munkres");
+var Munkres = require("../");
 var m = new Munkres.Munkres();
 
 describe('Munkres Algorithm', function() {

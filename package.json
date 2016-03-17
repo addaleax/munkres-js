@@ -1,32 +1,33 @@
 {
-	"name": "munkres-js",
-	"main": "munkres.js",
-	"version": "1.1.3",
-	"homepage": "https://github.com/addaleax/munkres-js",
-	"author": {
-		"name": "Anna Henningsen",
-		"email": "sqrt@entless.org"
-	},
-	"description": "Munkres (aka Hungarian) algorithm for JS",
-	"keywords": [
-		"assignment",
-		"munkres",
-		"hungarian"
-	],
-	"license": "BSD-3-Clause",
-	"bugs": {
-		"url": "https://github.com/addaleax/munkres-js/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/addaleax/munkres-js.git"
-	},
-	"scripts": {
-		"test": "node munkres"
-	},
-	"devDependencies": {
-		"istanbul": "*",
-		"coveralls": "*",
-        "should": "*"
-	}
+  "name": "munkres-js",
+  "main": "munkres.js",
+  "version": "1.1.3",
+  "homepage": "https://github.com/addaleax/munkres-js",
+  "author": {
+    "name": "Anna Henningsen",
+    "email": "sqrt@entless.org"
+  },
+  "description": "Munkres (aka Hungarian) algorithm for JS",
+  "keywords": [
+    "assignment",
+    "munkres",
+    "hungarian"
+  ],
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/addaleax/munkres-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/addaleax/munkres-js.git"
+  },
+  "scripts": {
+    "test": "node munkres"
+  },
+  "devDependencies": {
+    "coveralls": "*",
+    "istanbul": "*",
+    "mocha": "*",
+    "should": "*"
+  }
 }
