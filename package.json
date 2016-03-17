@@ -26,6 +26,7 @@
 	},
 	"devDependencies": {
 		"istanbul": "*",
-		"coveralls": "*"
+		"coveralls": "*",
+        "should": "*"
 	}
 }
