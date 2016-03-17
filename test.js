@@ -35,6 +35,16 @@ describe('Munkres Algorithm', function() {
         m.compute(matrix).should.eql([[0,2],[1,0],[2,1]]);  // smallest cost is 1+2+9=12
     });
     
+    it('handles another 3-by-3 matrix', function() {
+        var matrix = [
+            [400, 150, 400],
+            [400, 450, 600],
+            [300, 225, 300]
+        ];
+        
+        m.compute(matrix).should.eql([[0,1],[1,0],[2,2]]);
+    });
+    
     it('handles 3-by-3 matrix with both positive and negative values', function() {
         var matrix = [[5,3,-1],[2,4,-6],[9,9,-9]];
         m.compute(matrix).should.eql([[0,1],[1,0],[2,2]]);

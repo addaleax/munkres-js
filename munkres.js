@@ -1,5 +1,3 @@
-(function() { "use strict";
-
 /**
  * Introduction
  * ============
@@ -720,79 +718,9 @@ function format_matrix(matrix) {
 // Exports
 // ---------------------------------------------------------------------------
 
-if (typeof exports != 'undefined' && exports) {
+if (typeof exports !== 'undefined' && exports) {
   exports.version = "1.1.0";
   exports.format_matrix = format_matrix;
   exports.make_cost_matrix = make_cost_matrix;
   exports.Munkres = Munkres;
 }
-
-// ---------------------------------------------------------------------------
-// Main
-// ---------------------------------------------------------------------------
-
-if (typeof require != 'undefined' &&
-    typeof module != 'undefined' &&
-    require.main == module) {
-  var assert = require('assert');
-
-  var matrices = [
-    // Square
-    [[[400, 150, 400],
-      [400, 450, 600],
-      [300, 225, 300]],
-     850],  // expected cost
-
-    // Rectangular variant
-    [[[400, 150, 400, 1],
-      [400, 450, 600, 2],
-      [300, 225, 300, 3]],
-     452],  // expected cost
-
-
-    // Square
-    [[[10, 10,  8],
-      [9,  8,  1],
-      [9,  7,  4]],
-     18],
-
-    // Rectangular variant
-    [[[10, 10,  8, 11],
-      [9,  8,  1, 1],
-      [9,  7,  4, 10]],
-     15],
-
-    // All-zero square
-    [[[0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0]],
-     0],
-  ];
-
-  var m = new Munkres();
-
-  for (var k = 0; k < matrices.length; ++k) {
-    var cost_matrix = matrices[k][0];
-    var expected_total = matrices[k][1];
-
-    console.log('cost matrix');
-    console.log(format_matrix(cost_matrix));
-
-    var indices = m.compute(cost_matrix);
-    var total_cost = 0;
-
-    for (var l = 0; l < indices.length; ++l) {
-      var r = indices[l][0], c = indices[l][1];
-      var x = cost_matrix[r][c];
-      total_cost += x;
-
-      console.log('(' + r + ', ' + c + ') -> ' + x);
-    }
-
-    console.log('lowest cost = ' + total_cost + ', expected = ' + expected_total);
-
-    assert.equal(expected_total, total_cost);
-  }
-}
-
-})();
