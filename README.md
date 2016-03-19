@@ -21,6 +21,23 @@ used more than once.
 
 [Hungarian algorithm]: https://en.wikipedia.org/wiki/Hungarian_algorithm
 
+## Usage
+
+```js
+var munkres = require('munkres-js');
+
+munkres([
+  [400, 150, 400],
+  [400, 450, 600],
+  [300, 225, 300]
+])
+// => [ [ 0, 1 ], [ 1, 0 ], [ 2, 2 ] ]
+```
+
+Returns the list of matrix indices corresponding to the optimal assignment.
+
+When used in the browser, the global `computeMunkres` function is exposed.
+
 See the docs in munkres.js for more details.
 
 ## Meta

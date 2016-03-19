@@ -1,7 +1,7 @@
 {
   "name": "munkres-js",
   "main": "munkres.js",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "homepage": "https://github.com/addaleax/munkres-js",
   "author": {
     "name": "Anna Henningsen",
@@ -22,7 +22,7 @@
     "url": "https://github.com/addaleax/munkres-js.git"
   },
   "scripts": {
-    "test": "node munkres"
+    "test": "mocha"
   },
   "devDependencies": {
     "coveralls": "*",
