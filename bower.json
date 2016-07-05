@@ -1,7 +1,7 @@
 {
 	"name": "munkres-js",
 	"main": "munkres.js",
-	"version": "1.1.2",
+	"version": "1.2.1",
 	"homepage": "https://github.com/addaleax/munkres-js",
 	"authors": [
 		"sqrt <sqrt@entless.org>"
@@ -15,7 +15,7 @@
 		"munkres",
 		"hungarian"
 	],
-	"license": "BSD",
+	"license": "Apache-2.0 OR BSD-3-Clause",
 	"ignore": [
 		"**/.*",
 		"node_modules",

@@ -55,4 +55,4 @@ It is available via `bower` and `npm` as `munkres-js`.
 
 ## License
 
-BSD license. See accompanying LICENSE file.
+Apache License 2.0. See accompanying LICENSE file.
