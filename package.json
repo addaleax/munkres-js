@@ -22,12 +22,12 @@
     "url": "https://github.com/addaleax/munkres-js.git"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "nyc mocha"
   },
   "devDependencies": {
-    "coveralls": "*",
-    "istanbul": "*",
-    "mocha": "*",
-    "should": "*"
+    "coveralls": "^2.11.12",
+    "mocha": "^3.0.2",
+    "nyc": "^10.0.0",
+    "should": "^11.1.0"
   }
 }
