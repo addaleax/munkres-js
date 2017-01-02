@@ -11,7 +11,7 @@ Munkres implementation for Javascript
 
 ## Introduction
 
-The Munkres module provides an implementation of the Munkres algorithm
+The Munkres module provides an O(n³) implementation of the Munkres algorithm
 (also called the [Hungarian algorithm][] or the Kuhn-Munkres algorithm).
 The algorithm models an assignment problem as an N×M cost matrix, where
 each element represents the cost of assigning the ith worker to the jth
