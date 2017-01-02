@@ -656,12 +656,6 @@ function make_cost_matrix (profit_matrix, inversion_function) {
  * @return {String} The formatted matrix
  */
 function format_matrix(matrix) {
-  function log10(v) {
-    if (Math.log10)
-      return Math.log10(v);
-    return Math.log(v) / Math.log(10);
-  }
-
   var columnWidths = [];
   var i, j;
   for (i = 0; i < matrix.length; ++i) {
