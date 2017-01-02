@@ -373,6 +373,7 @@ Munkres.prototype.__step2 = function() {
         this.marked[i][j] = 1;
         this.col_covered[j] = true;
         this.row_covered[i] = true;
+        break;
       }
     }
   }
