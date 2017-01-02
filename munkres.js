@@ -392,7 +392,7 @@ Munkres.prototype.__step3 = function() {
 
   for (var i = 0; i < this.n; ++i) {
     for (var j = 0; j < this.n; ++j) {
-      if (this.marked[i][j] == 1) {
+      if (this.marked[i][j] == 1 && this.col_covered[j] == false) {
         this.col_covered[j] = true;
         ++count;
       }
