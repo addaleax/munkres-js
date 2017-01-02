@@ -45,6 +45,9 @@ See the docs in munkres.js for more details.
 This module is a translation of a Python implementation by
 [Brian Clapper](https://github.com/bmc/munkres).
 
+The original implementation is based on
+<http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html>.
+
 It is available via `bower` and `npm` as `munkres-js`.
 
 ## Copyright

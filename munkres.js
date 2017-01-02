@@ -77,9 +77,9 @@
  * package provides an implementation of that algorithm.
  *
  * This version is based on
- * http://www.public.iastate.edu/~ddoty/HungarianAlgorithm.html.
+ * http://csclab.murraystate.edu/~bob.pilgrim/445/munkres.html
  *
- * This version was originally written for Python by Brian Clapper from the (Ada)
+ * This version was originally written for Python by Brian Clapper from the
  * algorithm at the above web site (The ``Algorithm::Munkres`` Perl version,
  * in CPAN, was clearly adapted from the same web site.) and ported to
  * JavaScript by Anna Henningsen (addaleax).
@@ -700,7 +700,7 @@ function computeMunkres(cost_matrix, options) {
   return m.compute(cost_matrix, options);
 }
 
-computeMunkres.version = "1.2.1";
+computeMunkres.version = "1.2.2";
 computeMunkres.format_matrix = format_matrix;
 computeMunkres.make_cost_matrix = make_cost_matrix;
 computeMunkres.Munkres = Munkres; // backwards compatibility

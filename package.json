@@ -1,7 +1,7 @@
 {
   "name": "munkres-js",
   "main": "munkres.js",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "homepage": "https://github.com/addaleax/munkres-js",
   "author": {
     "name": "Anna Henningsen",
