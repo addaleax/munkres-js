@@ -102,11 +102,11 @@
  *  console.log(format_matrix(matrix), 'Lowest cost through this matrix:');
  *  var total = 0;
  *  for (var i = 0; i < indices.length; ++i) {
- *    var row = indices[l][0], col = indices[l][1];
+ *    var row = indices[i][0], col = indices[i][1];
  *    var value = matrix[row][col];
  *    total += value;
  *
- *    console.log('(' + rol + ', ' + col + ') -> ' + value);
+ *    console.log('(' + row + ', ' + col + ') -> ' + value);
  *  }
  *
  *  console.log('total cost:', total);
