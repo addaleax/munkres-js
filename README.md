@@ -17,7 +17,7 @@ used more than once.
 ## Usage
 
 ```ts
-import { computeMunkres } from 'munkrest-ts';
+import { computeMunkres } from 'munkres-ts';
 
 computeMunkres([
     [400, 150, 400],
