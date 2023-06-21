@@ -1,33 +1,41 @@
 {
-  "name": "munkres-js",
-  "main": "munkres.js",
-  "version": "1.2.2",
-  "homepage": "https://github.com/addaleax/munkres-js",
-  "author": {
-    "name": "Anna Henningsen",
-    "email": "sqrt@entless.org"
-  },
-  "description": "Munkres (aka Hungarian) algorithm for JS",
-  "keywords": [
-    "assignment",
-    "munkres",
-    "hungarian"
-  ],
-  "license": "Apache-2.0 OR BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/addaleax/munkres-js/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/addaleax/munkres-js.git"
-  },
-  "scripts": {
-    "test": "nyc mocha"
-  },
-  "devDependencies": {
-    "coveralls": "^2.11.12",
-    "mocha": "^3.0.2",
-    "nyc": "^10.0.0",
-    "should": "^11.1.0"
-  }
+    "name": "munkres-ts",
+    "main": "./build/munkres.js",
+    "version": "1.0.0",
+    "homepage": "https://github.com/danslobodan/munkres-ts",
+    "author": {
+        "name": "Slobodan Dan",
+        "email": "slobodan.s.dan@gmail.com"
+    },
+    "description": "Munkres (aka Hungarian) algorithm for TS",
+    "keywords": [
+        "assignment",
+        "munkres",
+        "hungarian"
+    ],
+    "license": "Apache-2.0 OR BSD-3-Clause",
+    "bugs": {
+        "url": "https://github.com/danslobodan/munkres-ts/issues",
+        "email": "slobodan.s.dan@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/danslobodan/munkres-ts.git"
+    },
+    "scripts": {
+        "build": "tsc",
+        "test": "jest --watchAll --no-cache",
+        "test:ci": "jest --coverage --detectOpenHandles --verbose --forceExit --no-cache",
+        "pub": "npm version patch && npm run build && npm publish"
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.2",
+        "coveralls": "^2.11.12",
+        "ts-jest": "^29.1.0",
+        "typescript": "^5.1.3"
+    }
 }
