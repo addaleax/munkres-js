@@ -380,6 +380,15 @@ export const computeMunkres = (
     return results;
 };
 
+const defaultInversionFunction = (profit_matrix: Matrix, x: number): number => {
+    var maximum = -1.0 / 0.0;
+    for (let i = 0; i < profit_matrix.length; ++i)
+        for (let j = 0; j < profit_matrix[i].length; ++j)
+            if (profit_matrix[i][j] > maximum) maximum = profit_matrix[i][j];
+
+    return maximum - x;
+};
+
 /**
  * Create a cost matrix from a profit matrix by calling
  * 'inversion_function' to invert each value. The inversion
@@ -397,21 +406,11 @@ export const computeMunkres = (
  *
  * @param {Array} profit_matrix An array of arrays representing the matrix
  *                              to convert from a profit to a cost matrix
- * @param {Function} [inversion_function] The function to use to invert each
+ * @param {Function} [inversionFunction] The function to use to invert each
  *                                       entry in the profit matrix
  *
  * @return {Array} The converted matrix
  */
-
-const defaultInversionFunction = (profit_matrix: Matrix, x: number): number => {
-    var maximum = -1.0 / 0.0;
-    for (let i = 0; i < profit_matrix.length; ++i)
-        for (let j = 0; j < profit_matrix[i].length; ++j)
-            if (profit_matrix[i][j] > maximum) maximum = profit_matrix[i][j];
-
-    return maximum - x;
-};
-
 export const profitToCostMatrix = (
     profit_matrix: Matrix,
     inversionFunction = defaultInversionFunction
