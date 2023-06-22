@@ -47,7 +47,7 @@ export const computeMunkres = (
      *
      * @return {Array} An array of arrays representing the padded matrix
      */
-    const pad_matrix = (matrix: Matrix, pad_value: number = 0): Matrix => {
+    const padMatrix = (matrix: Matrix, pad_value: number = 0): Matrix => {
         let max_columns = 0;
         let total_rows = matrix.length;
 
@@ -79,7 +79,7 @@ export const computeMunkres = (
      *
      * @return {Array} An array of arrays representing the newly created matrix
      */
-    const make_matrix = (n: number, val: number): Matrix => {
+    const createMatrix = (n: number, val: number): Matrix => {
         const matrix: Matrix = [];
         for (let i = 0; i < n; ++i) {
             matrix[i] = [];
@@ -89,31 +89,30 @@ export const computeMunkres = (
         return matrix;
     };
 
-    let C = pad_matrix(cost_matrix, options.padValue);
-    let n = C.length;
-    let original_length = cost_matrix.length;
-    let original_width = cost_matrix[0].length;
+    const original_length = cost_matrix.length;
+    const original_width = cost_matrix[0].length;
 
-    const nfalseArray: boolean[] = []; /* array of n false values */
-    while (nfalseArray.length < n) nfalseArray.push(false);
-    let row_covered = [...nfalseArray];
-    let col_covered = [...nfalseArray];
+    const costMatrix = padMatrix(cost_matrix, options.padValue);
+    const matrixSize = costMatrix.length;
+
+    let rowCovered = new Array(matrixSize).fill(false);
+    let colCovered = new Array(matrixSize).fill(false);
     let Z0_r = 0;
     let Z0_c = 0;
-    let path = make_matrix(n * 2, 0);
-    let marked = make_matrix(n, 0);
+    let path = createMatrix(matrixSize * 2, 0);
+    let marked = createMatrix(matrixSize, 0);
 
     /**
      * For each row of the matrix, find the smallest element and
      * subtract it from every element in its row. Go to Step 2.
      */
     const step1 = (): number => {
-        for (let i = 0; i < n; ++i) {
+        for (let i = 0; i < matrixSize; ++i) {
             // Find the minimum value for this row and subtract that minimum
             // from every element in the row.
-            let minval = Math.min.apply(Math, C[i]);
+            let minval = Math.min.apply(Math, costMatrix[i]);
 
-            for (let j = 0; j < n; ++j) C[i][j] -= minval;
+            for (let j = 0; j < matrixSize; ++j) costMatrix[i][j] -= minval;
         }
 
         return 2;
@@ -125,18 +124,22 @@ export const computeMunkres = (
      * matrix. Go to Step 3.
      */
     const step2 = (): number => {
-        for (let i = 0; i < n; ++i) {
-            for (let j = 0; j < n; ++j) {
-                if (C[i][j] === 0 && !col_covered[j] && !row_covered[i]) {
+        for (let i = 0; i < matrixSize; ++i) {
+            for (let j = 0; j < matrixSize; ++j) {
+                if (
+                    costMatrix[i][j] === 0 &&
+                    !colCovered[j] &&
+                    !rowCovered[i]
+                ) {
                     marked[i][j] = 1;
-                    col_covered[j] = true;
-                    row_covered[i] = true;
+                    colCovered[j] = true;
+                    rowCovered[i] = true;
                     break;
                 }
             }
         }
 
-        clear_covers();
+        clearCovers();
 
         return 3;
     };
@@ -149,16 +152,16 @@ export const computeMunkres = (
     const step3 = (): number => {
         let count = 0;
 
-        for (let i = 0; i < n; ++i) {
-            for (let j = 0; j < n; ++j) {
-                if (marked[i][j] == 1 && col_covered[j] == false) {
-                    col_covered[j] = true;
+        for (let i = 0; i < matrixSize; ++i) {
+            for (let j = 0; j < matrixSize; ++j) {
+                if (marked[i][j] == 1 && colCovered[j] == false) {
+                    colCovered[j] = true;
                     ++count;
                 }
             }
         }
 
-        return count >= n ? 7 : 4;
+        return count >= matrixSize ? 7 : 4;
     };
 
     /**
@@ -171,12 +174,12 @@ export const computeMunkres = (
 
     const step4 = (): number => {
         while (true) {
-            let [row, col] = find_a_zero();
+            let [row, col] = findFirstZero();
 
             if (row < 0) break;
 
             marked[row][col] = 2;
-            const star_col = find_star_in_row(row);
+            const star_col = findStarInRow(row);
 
             if (star_col < 0) {
                 Z0_r = row;
@@ -184,8 +187,8 @@ export const computeMunkres = (
                 return 5;
             }
 
-            row_covered[row] = true;
-            col_covered[star_col] = false;
+            rowCovered[row] = true;
+            colCovered[star_col] = false;
         }
 
         return 6;
@@ -209,7 +212,7 @@ export const computeMunkres = (
         let done = false;
 
         while (!done) {
-            let row = find_star_in_col(path[count][1]);
+            let row = findStarInCol(path[count][1]);
             if (row >= 0) {
                 count++;
                 path[count][0] = row;
@@ -219,16 +222,16 @@ export const computeMunkres = (
             }
 
             if (!done) {
-                let col = find_prime_in_row(path[count][0]);
+                let col = findPrimeInRow(path[count][0]);
                 count++;
                 path[count][0] = path[count - 1][0];
                 path[count][1] = col;
             }
         }
 
-        convert_path(path, count);
-        clear_covers();
-        erase_primes();
+        convertPath(path, count);
+        clearCovers();
+        erasePrimes();
         return 3;
     };
 
@@ -239,12 +242,12 @@ export const computeMunkres = (
      * lines.
      */
     const step6 = (): number => {
-        let minval = find_smallest();
+        let minval = findSmallest();
 
-        for (let i = 0; i < n; ++i) {
-            for (let j = 0; j < n; ++j) {
-                if (row_covered[i]) C[i][j] += minval;
-                if (!col_covered[j]) C[i][j] -= minval;
+        for (let i = 0; i < matrixSize; ++i) {
+            for (let j = 0; j < matrixSize; ++j) {
+                if (rowCovered[i]) costMatrix[i][j] += minval;
+                if (!colCovered[j]) costMatrix[i][j] -= minval;
             }
         }
 
@@ -256,13 +259,13 @@ export const computeMunkres = (
      *
      * @return {Number} The smallest uncovered value, or MAX_SIZE if no value was found
      */
-    const find_smallest = (): number => {
+    const findSmallest = (): number => {
         let minval = MAX_SIZE;
 
-        for (let i = 0; i < n; ++i)
-            for (let j = 0; j < n; ++j)
-                if (!row_covered[i] && !col_covered[j])
-                    if (minval > C[i][j]) minval = C[i][j];
+        for (let i = 0; i < matrixSize; ++i)
+            for (let j = 0; j < matrixSize; ++j)
+                if (!rowCovered[i] && !colCovered[j])
+                    if (minval > costMatrix[i][j]) minval = costMatrix[i][j];
 
         return minval;
     };
@@ -272,10 +275,10 @@ export const computeMunkres = (
      *
      * @return {Array} The indices of the found element or [-1, -1] if not found
      */
-    const find_a_zero = (): [number, number] => {
-        for (let i = 0; i < n; ++i)
-            for (let j = 0; j < n; ++j)
-                if (C[i][j] === 0 && !row_covered[i] && !col_covered[j])
+    const findFirstZero = (): [number, number] => {
+        for (let i = 0; i < matrixSize; ++i)
+            for (let j = 0; j < matrixSize; ++j)
+                if (costMatrix[i][j] === 0 && !rowCovered[i] && !colCovered[j])
                     return [i, j];
 
         return [-1, -1];
@@ -288,8 +291,8 @@ export const computeMunkres = (
      * @param {Number} row The index of the row to search
      * @return {Number}
      */
-    const find_star_in_row = (row: number): number => {
-        for (let j = 0; j < n; ++j) if (marked[row][j] == 1) return j;
+    const findStarInRow = (row: number): number => {
+        for (let j = 0; j < matrixSize; ++j) if (marked[row][j] == 1) return j;
 
         return -1;
     };
@@ -299,8 +302,8 @@ export const computeMunkres = (
      *
      * @return {Number} The row index, or -1 if no starred element was found
      */
-    const find_star_in_col = (col: number): number => {
-        for (let i = 0; i < n; ++i) if (marked[i][col] == 1) return i;
+    const findStarInCol = (col: number): number => {
+        for (let i = 0; i < matrixSize; ++i) if (marked[i][col] == 1) return i;
 
         return -1;
     };
@@ -310,30 +313,31 @@ export const computeMunkres = (
      *
      * @return {Number} The column index, or -1 if no prime element was found
      */
-    const find_prime_in_row = (row: number): number => {
-        for (let j = 0; j < n; ++j) if (marked[row][j] == 2) return j;
+    const findPrimeInRow = (row: number): number => {
+        for (let j = 0; j < matrixSize; ++j) if (marked[row][j] == 2) return j;
 
         return -1;
     };
 
-    const convert_path = (path: Matrix, count: number): void => {
+    const convertPath = (path: Matrix, count: number): void => {
         for (let i = 0; i <= count; ++i)
             marked[path[i][0]][path[i][1]] =
                 marked[path[i][0]][path[i][1]] == 1 ? 0 : 1;
     };
 
     /** Clear all covered matrix cells */
-    const clear_covers = () => {
-        for (let i = 0; i < n; ++i) {
-            row_covered[i] = false;
-            col_covered[i] = false;
+    const clearCovers = () => {
+        for (let i = 0; i < matrixSize; ++i) {
+            rowCovered[i] = false;
+            colCovered[i] = false;
         }
     };
 
     /** Erase all prime markings */
-    const erase_primes = () => {
-        for (let i = 0; i < n; ++i)
-            for (let j = 0; j < n; ++j) if (marked[i][j] == 2) marked[i][j] = 0;
+    const erasePrimes = () => {
+        for (let i = 0; i < matrixSize; ++i)
+            for (let j = 0; j < matrixSize; ++j)
+                if (marked[i][j] == 2) marked[i][j] = 0;
     };
 
     /**
@@ -346,37 +350,34 @@ export const computeMunkres = (
      *
      */
 
-    const compute = () => {
-        let step = 1;
+    let step = 1;
 
-        const steps: {
-            [key: number]: () => number;
-        } = {
-            1: step1,
-            2: step2,
-            3: step3,
-            4: step4,
-            5: step5,
-            6: step6,
-        };
-
-        while (true) {
-            const func = steps[step];
-            if (!func)
-                // done
-                break;
-
-            step = func.apply(this);
-        }
-
-        const results: Matrix = [];
-        for (let i = 0; i < original_length; ++i)
-            for (let j = 0; j < original_width; ++j)
-                if (marked[i][j] == 1) results.push([i, j]);
-
-        return results;
+    const steps: {
+        [key: number]: () => number;
+    } = {
+        1: step1,
+        2: step2,
+        3: step3,
+        4: step4,
+        5: step5,
+        6: step6,
     };
-    return compute();
+
+    while (true) {
+        const func = steps[step];
+        if (!func)
+            // done
+            break;
+
+        step = func.apply(this);
+    }
+
+    const results: Matrix = [];
+    for (let i = 0; i < original_length; ++i)
+        for (let j = 0; j < original_width; ++j)
+            if (marked[i][j] == 1) results.push([i, j]);
+
+    return results;
 };
 
 /**
