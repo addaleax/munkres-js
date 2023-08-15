@@ -412,10 +412,9 @@ Munkres.prototype.__step3 = function() {
  */
 
 Munkres.prototype.__step4 = function() {
-  var done = false;
   var row = -1, col = -1, star_col = -1;
 
-  while (!done) {
+  while (true) {
     var z = this.__find_a_zero();
     row = z[0];
     col = z[1];
