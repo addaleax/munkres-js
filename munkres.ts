@@ -24,7 +24,7 @@ interface Options {
  * **WARNING**: This code handles square and rectangular matrices.
  * It does *not* handle irregular matrices.
  *
- * @param {Array} cost_matrix The cost matrix. If this cost matrix is not square,
+ * @param {Array} originalCostMatrix The cost matrix. If this cost matrix is not square,
  *                            it will be padded with zeros. Optionally,
  *                            the pad value can be specified via options.padValue.
  *                            This method does *not* modify the caller's matrix.
@@ -36,7 +36,7 @@ interface Options {
  *                 cost path through the matrix
  */
 export const computeMunkres = (
-    cost_matrix: Matrix,
+    originalCostMatrix: Matrix,
     options: Options = {}
 ): Matrix => {
     /**
@@ -89,17 +89,16 @@ export const computeMunkres = (
         return matrix;
     };
 
-    const original_length = cost_matrix.length;
-    const original_width = cost_matrix[0].length;
+    const originalLength = originalCostMatrix.length;
+    const originalWidth = originalCostMatrix[0].length;
 
-    const costMatrix = padMatrix(cost_matrix, options.padValue);
+    const costMatrix = padMatrix(originalCostMatrix, options.padValue);
     const matrixSize = costMatrix.length;
 
     let rowCovered = new Array(matrixSize).fill(false);
     let colCovered = new Array(matrixSize).fill(false);
     let Z0_r = 0;
     let Z0_c = 0;
-    let path = createMatrix(matrixSize * 2, 0);
     let marked = createMatrix(matrixSize, 0);
 
     /**
@@ -110,7 +109,7 @@ export const computeMunkres = (
         for (let i = 0; i < matrixSize; ++i) {
             // Find the minimum value for this row and subtract that minimum
             // from every element in the row.
-            let minval = Math.min.apply(Math, costMatrix[i]);
+            const minval = Math.min(...costMatrix[i]);
 
             for (let j = 0; j < matrixSize; ++j) costMatrix[i][j] -= minval;
         }
@@ -179,16 +178,16 @@ export const computeMunkres = (
             if (row < 0) break;
 
             marked[row][col] = 2;
-            const star_col = findStarInRow(row);
+            const starCol = findStarInRow(row);
 
-            if (star_col < 0) {
+            if (starCol < 0) {
                 Z0_r = row;
                 Z0_c = col;
                 return 5;
             }
 
             rowCovered[row] = true;
-            colCovered[star_col] = false;
+            colCovered[starCol] = false;
         }
 
         return 6;
@@ -207,6 +206,7 @@ export const computeMunkres = (
     const step5 = (): number => {
         let count = 0;
 
+        const path = createMatrix(matrixSize * 2, 0);
         path[count][0] = Z0_r;
         path[count][1] = Z0_c;
         let done = false;
@@ -373,8 +373,8 @@ export const computeMunkres = (
     }
 
     const results: Matrix = [];
-    for (let i = 0; i < original_length; ++i)
-        for (let j = 0; j < original_width; ++j)
+    for (let i = 0; i < originalLength; ++i)
+        for (let j = 0; j < originalWidth; ++j)
             if (marked[i][j] == 1) results.push([i, j]);
 
     return results;
